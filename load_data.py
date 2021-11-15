@@ -23,8 +23,10 @@ class StockDataLocal:
             stock_df_list.append(stock)
 
         return stock_df_list
-    def Tot_data():
-        germany = StockDataLocal.Tot_data()
-        germany = germany[germany["NOC"] == "GER"].reset_index(drop=True)
+
+def tot_data():
+    germany = df.tot_data()
+    germany = germany[germany["NOC"] == "GER"].reset_index(drop=True)
         
-        return germany
+    return germany
+    
