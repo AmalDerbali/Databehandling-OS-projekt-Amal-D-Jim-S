@@ -238,8 +238,9 @@ def update_graph(medal,date):
     number_medals = [dff[medal].sum() for medal in medal_list]
     
     # Update figure
+    # Color modification based on https://github.com/plotly/plotly.py/issues/2241
     fig = px.bar(
-        dff, x="Year", y=medal, color="Season",
+        dff, x="Year", y=medal, color="Season", color_discrete_sequence=["orange", "blue"],
         title=f"Number of {medal} medals between {date[0]} and {date[1]}",
         labels={"value":"Number medals", "variable":"Medal"})
 
@@ -268,7 +269,7 @@ def update_graph(chosen_attribute):
 
     # Update figure
     fig = px.bar(
-        df_top, x=chosen_attribute, y=medal_list,
+        df_top, x=chosen_attribute, y=medal_list, color_discrete_sequence=["black", "orange", "blue", "grey"],
         title=f"Germany's achievements based on {attr_dict[chosen_attribute]}",
         labels={"value":"Number medals", "variable":"Medal"}
     )
