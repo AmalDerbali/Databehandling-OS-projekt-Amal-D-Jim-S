@@ -239,7 +239,7 @@ def update_graph(medal,date):
     
     # Update figure
     fig = px.bar(
-        dff, x="Year", y=medal, color="Season", width = 1,
+        dff, x="Year", y=medal, color="Season",
         title=f"Number of {medal} medals between {date[0]} and {date[1]}",
         labels={"value":"Number medals", "variable":"Medal"})
 
