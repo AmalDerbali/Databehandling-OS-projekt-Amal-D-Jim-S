@@ -264,7 +264,7 @@ def update_graph(medal,time_index):
 
 # fig of top best statistics of Germany
 @app.callback(
-    Output("top_best-graph", "figure"),
+    Output("top10-graph", "figure"),
     Input("attribute-dropdown", "value"),
 )
 def update_graph(chosen_attribute):
