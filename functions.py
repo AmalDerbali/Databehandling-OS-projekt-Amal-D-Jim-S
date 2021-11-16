@@ -1,24 +1,42 @@
 
-from dateutil.relativedelta import relativedelta
-import pandas as pd
+# This function is made for analyzing and getting data that we need
+ 
 
+def count_medals(df, *data):
+    """
+    Gives back number of medals groupby several attributes: *data
+    and it returns a new DataFrame
 
+    """
+    #The special syntax *args is used to pass a variable number of arguments to a function. 
+    #The syntax is to use the symbol * to take in a variable number of arguments based on the link: https://www.programiz.com/python-programming/args-and-kwargs
+    # we start by removing all NaN in the column
+    df_medals = df[df['Medal'].notna()]
+    
+    #count medals by column
+    datas_list = list(data)
+    datas_list.append("Medal")
+    df_medals = df_medals.groupby(datas_list).count().reset_index()
 
+    #the sum of medals is listed in 'ID'
+    datas_list.append("ID")
+    df_medals = df_medals.loc[:, datas_list]
+    
+    # Changes dataframe from long to wide
+    datas = list(data)
+    df_medals = df_medals.pivot(index=datas, columns="Medal", values="ID")
 
-def filter_time(df, days=0):
-    last_day = df.index[0].date()
-    start_day = last_day - relativedelta(days=days)
-    # sort_index() - skips a warning
-    df = df.sort_index().loc[start_day:last_day]
-    return df
-
-
-def count_medals(df_orig, column_name, year="Year", medal="Medal"):
-    df_medals = df_orig.groupby([column_name, year, medal]).count()["ID"].reset_index()
-    df_medals = df_medals.pivot(index=[column_name, year], columns="Medal", values="ID")
+    # fill out the missing values with a specified value which is 0
     df_medals.fillna(0, inplace=True)
-    df_medals.reset_index(drop=False, inplace=True )
-    df_medals["Total"] = df_medals["Bronze"] + df_medals["Gold"] + df_medals["Silver"]
-    df_medals['Year']= pd.to_datetime(df_medals['Year'], format='%Y').dt.year
-    df_medals.iloc[:, -4:] = df_medals.iloc[:, -4:].astype("int64")
+
+    # declare Total
+    df_medals["Total"] = df_medals["Gold"] + df_medals["Silver"] + df_medals["Bronze"]
+    
+    # modify columns and reset index
+    df_medals = df_medals.astype(int).reset_index(inplace=False)
+
+    
     return df_medals
+
+
+
