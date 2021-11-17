@@ -37,13 +37,15 @@ type_options = [
 sport_dict = { 
     'Age':'Age',
     'NOC':'Country',
-    'Sex' : 'Athlete gender'
-    
+    'Sex' : 'Athlete gender',
+    'Games':'Games'
+
 }
 unit_dict = {
     'Age':'Age',
     'NOC':'Country',
-    'Sex' : 'Athlete gender'
+    'Sex':'Athlete gender',
+    'Games':'Games'
     
 }
 
