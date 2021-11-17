@@ -40,24 +40,26 @@ attribute_options_dropdown = [
 ]
 
 
-# participants dropdown options
-gender_options = [
-    {'label':'Both', 'value':'Both'},
-    {'label':'Female', 'value':'F'},
-    {'label':'Male', 'value':'M'}
+# sports dropdown options
+type_options = [
+    {'label':'Fencing', 'value':'Fencing'},
+    {'label':'Judo', 'value':'Judo'},
+    {'label':'Gymnstics', 'value':'Gymnastics'}
 ]
 athlete_dict = { 
     'Age':'Age',
-    'NOC':'Country'
+    'NOC':'Country',
+    'Sex' : 'Athlete gender'
     
 }
 unit_dict = {
     'Age':'Age',
-    'NOC':'Country'
+    'NOC':'Country',
+    'Sex' : 'Athlete gender'
     
 }
 
-athlete_options = [
+sport_options = [
     {'label':name, 'value': attribute} 
     for attribute, name in athlete_dict.items()
 ]
@@ -158,7 +160,7 @@ app.layout = dbc.Container([
             dcc.Dropdown(
                 id = 'attribute-dropdown',
                 className = 'm-2',
-                value = "Sports",
+                value = "Sport",
                 options = attribute_options_dropdown
             ),
         ], lg='8', xl='2'),
@@ -173,7 +175,7 @@ app.layout = dbc.Container([
 
     #set the third title of histograms
     dbc.Card([
-        dbc.CardBody(html.H1("Athlete statistics", style={'color': 'green'},
+        dbc.CardBody(html.H1("Sport statistics", style={'color': 'green'},
             className='text-primary-m-4'
         ))
     ]),
@@ -183,29 +185,29 @@ app.layout = dbc.Container([
         dbc.Col([
             dbc.Card([
             # col2 with fig
-                html.H3('Choose a gender:', className = 'm-2', style={'color': 'blue'}),
+                html.H3('Choose a sport:', className = 'm-2', style={'color': 'blue'}),
                 dcc.RadioItems(
-                    id='gender-picker-radio', 
+                    id='type-picker-radio', 
                     className='m-2',
-                    value="Both",
-                    options=gender_options,
+                    value="Fencing",
+                    options=type_options,
                     labelStyle={'display': 'block'}
                 ),
 
                 html.H3('Choose a statistic:', className = 'm-2', style={'color': 'blue'}),
                 dcc.RadioItems(
-                    id='athlete-radio', 
+                    id='sport-radio', 
                     className='m-2',
                     value="Age",
-                    options=athlete_options,
+                    options=sport_options,
                     labelStyle={'display': 'block'}
                 ),
             ], className='mt-1'),
-        ], lg='8', xl='3'),
+        ], lg='8', xl='2'),
         # 2nd with figure
         dbc.Col([
             dcc.Graph(
-                id='athlete-graph',
+                id='sport-graph',
                 className=''
             ),
         ])
@@ -216,7 +218,6 @@ app.layout = dbc.Container([
         html.H3("Olympic Sports Statistics", className="h5")],
         className="navbar fixed-bottom"),
     
-    dcc.Store(id="filtered-df"),
 
 ], fluid=True)
   
@@ -236,7 +237,7 @@ def update_graph(medal,time_index):
     """
     # date represents the list of two points choosen by user and then choose subset of dataframe.
     
-    # df of number of medals in Ger per year
+    # df of number of medals per year
     # Save number of medals per year
     df_medal = fn.count_medals(data_os, "Year", "Season")
 
@@ -262,7 +263,7 @@ def update_graph(medal,time_index):
     
     return fig, number_medals[0], number_medals[1], number_medals[2], number_medals[3]
 
-# fig of top best statistics of Germany
+# fig of wolrd top best statistics
 @app.callback(
     Output("top10-graph", "figure"),
     Input("attribute-dropdown", "value"),
@@ -291,25 +292,27 @@ def update_graph(chosen_attribute):
 
 
 @app.callback(
-    Output("athlete-graph", "figure"),
-    Input("athlete-radio", "value"),
-    Input("gender-picker-radio", "value")
+    Output("sport-graph", "figure"),
+    Input("sport-radio", "value"),
+    Input("type-picker-radio", "value")
 )
-def update_graph(athlete_attribute, athlete_gender):
+
+def update_graph(sport_attribute, sport_type):
     """
-    Figure with statistics for athletes
+    Figure with statistics for types of sports
 
     """
-    # get histogram that represents German athletes statistics
+    # get histogram that represents sport statistics
     # get fig depending on what we choose
-    if athlete_gender == "Both":
-        fig = px.histogram(data_os, x=athlete_attribute)
+    if sport_type == "Fencing":
+        fig = px.histogram(data_os, x=sport_attribute)
     else:
-        fig = px.histogram(data_os[data_os["Sex"]==athlete_gender], x=athlete_attribute)
+        fig = px.histogram(data_os[data_os["Sport"]==sport_type], x=sport_attribute)
     
     # that shows axis
     fig.layout.yaxis.title.text = "Number of athletes"
-    fig.layout.xaxis.title.text = unit_dict[athlete_attribute]
+    fig.layout.xaxis.title.text = unit_dict[sport_attribute]
+   
 
     return fig
 
