@@ -28,7 +28,7 @@ df_medal = fn.count_medals(ger, "Year")
 
 # Attribute dropdown options
 attr_dict = {
-    'Sport':'Sports',  
+    'Sport':'Sport',  
     'Games':'Year & Season',
     'Season':'Season',  
     'Sex':'Athlete gender', 
@@ -47,11 +47,15 @@ gender_options = [
     {'label':'Male', 'value':'M'}
 ]
 athlete_dict = { 
-    'Age':'Age'
+    'Age':'Age',
+    'Height':'Height',
+    'Weight':'Weight'
     
 }
 unit_dict = {
-    'Age':'Age'
+    'Age':'Age',
+    'Height':'Height',
+    'Weight':'Weight'
     
 }
 
@@ -156,7 +160,7 @@ app.layout = dbc.Container([
             dcc.Dropdown(
                 id = 'attribute-dropdown',
                 className = 'm-2',
-                value = "Sports",
+                value = "Sport",
                 options = attribute_options_dropdown
             ),
         ], lg='8', xl='2'),
@@ -171,7 +175,7 @@ app.layout = dbc.Container([
 
     #set the third title of histograms
     dbc.Card([
-        dbc.CardBody(html.H1("Athlete statistics", style={'color': 'green'},
+        dbc.CardBody(html.H1("Participants statistics", style={'color': 'green'},
             className='text-primary-m-4'
         ))
     ]),
