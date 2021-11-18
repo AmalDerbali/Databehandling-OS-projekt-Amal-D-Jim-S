@@ -18,7 +18,7 @@ medal_options = [{'label': medal, 'value': medal} for medal in medal_list]
 # slider options: medal-time 
 slider_marks = {
     str(year): str(year) for year in range(
-        ger["Year"].min(), ger["Year"].max(), 10
+        ger["Year"].min(), ger["Year"].max(), 8
     )
 }
 
