@@ -65,7 +65,7 @@ athlete_options = [
 ]
 
 
-server = app.server  # needed for Heroku to connect to
+
 # Set theme settings
 stylesheets = [dbc.themes.MATERIA]
 
@@ -74,7 +74,7 @@ app = dash.Dash(__name__, external_stylesheets=stylesheets,
     meta_tags=[dict(name="viewport", content="width=device-width, initial-scale=1.0")]
 )
 
-
+server = app.server  # needed for Heroku to connect to
 app.layout = dbc.Container([
 
     # Main Title
