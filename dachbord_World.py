@@ -233,7 +233,7 @@ app.layout = dbc.Container([
     Input("medal-picker-radio", "value"),
     Input("time-slider", "value")
 )
-def update_graph(medal,time_index):
+def update_graph(medal,date):
     """
     Updates graph based on different unputs
     """
@@ -245,8 +245,8 @@ def update_graph(medal,time_index):
 
     # set the period range 
     dff = df_medal[
-        (df_medal[df_medal.columns[0]] >= time_index[0]) & 
-        (df_medal[df_medal.columns[0]] <= time_index[1])
+        (df_medal[df_medal.columns[0]] >= date[0]) & 
+        (df_medal[df_medal.columns[0]] <= date[1])
     ]
     
     # get the total medals 
@@ -255,7 +255,7 @@ def update_graph(medal,time_index):
     # Update figure
     fig = px.bar(
         dff, x="Year", y=medal, color="Season",
-        title=f"The number of {medal} medals between {time_index[0]} and {time_index[1]}",
+        title=f"The number of {medal} medals between {date[0]} and {date[1]}",
         labels={"value":"Number medals", "variable":"Medal"}
     )
 
