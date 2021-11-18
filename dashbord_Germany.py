@@ -65,6 +65,7 @@ athlete_options = [
 ]
 
 
+server = app.server  # needed for Heroku to connect to
 # Set theme settings
 stylesheets = [dbc.themes.MATERIA]
 
@@ -73,8 +74,6 @@ app = dash.Dash(__name__, external_stylesheets=stylesheets,
     meta_tags=[dict(name="viewport", content="width=device-width, initial-scale=1.0")]
 )
 
-
-server = app.server  # needed for Heroku to connect to
 
 app.layout = dbc.Container([
 
@@ -244,7 +243,7 @@ def update_graph(medal,date):
     # Update figure
     # Color modification based on https://github.com/plotly/plotly.py/issues/2241
     fig = px.bar(
-        dff, x="Year", y=medal, color="Season", color_discrete_sequence=["orange", "blue"],
+        dff, x="Year", y=medal, color="Season", color_discrete_sequence=["fuchsia", "blue"],
         title=f"Number of {medal} medals between {date[0]} and {date[1]}",
         labels={"value":"Number medals", "variable":"Medal"})
 
@@ -273,7 +272,7 @@ def update_graph(chosen_attribute):
 
     # Update figure
     fig = px.bar(
-        df_top, x=chosen_attribute, y=medal_list, color_discrete_sequence=["black", "orange", "blue", "grey"],
+        df_top, x=chosen_attribute, y=medal_list, color_discrete_sequence=["black", "fuchsia", "light blue", "grey"],
         title=f"Germany's achievements based on {attr_dict[chosen_attribute]}",
         labels={"value":"Number medals", "variable":"Medal"}
     )
